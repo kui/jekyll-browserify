@@ -1,8 +1,8 @@
 # Jekyll::Browserify
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/jekyll/browserify`. To experiment with that code, run `bin/console` for an interactive prompt.
+A browserify converter for Jekyll.
 
-TODO: Delete this and the text above, and describe your gem
+The runtime for `browserify` is installed automatically.
 
 ## Installation
 
@@ -22,7 +22,27 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+~~~~~~~~~~~~~~~~~~~~~~~~~bash
+$ cat main.js
+---
+---
+console.log("foo");
+$ jekyll build
+$ cat _site/main.js
+# conterted code
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Add the below to `_config.yaml` if you want to use with [babel][]:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~_config.yaml
+browserify:
+  modules:
+    - babelify
+    - babel-preset-es2015
+  option: "-t [ babelify --presets es2015 ]"
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[babel]: https://github.com/babel/babelify
 
 ## Development
 
