@@ -42,6 +42,15 @@ browserify:
   option: "-t [ babelify --presets es2015 ]"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+### Confing items and Default Values
+
+~~~~~~~~~~~~~~~~~~~~~~~~~_config.yaml
+browserify:
+  modules: []   # required modules
+  option: ""    # browserify option string
+  exts: [".js"] # target exts to convert
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
 [babel]: https://github.com/babel/babelify
 
 ## Development
