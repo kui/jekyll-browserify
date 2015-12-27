@@ -9,7 +9,9 @@ The runtime for `browserify` is installed automatically.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'jekyll-browserify'
+group :jekyll_plugins do
+  gem 'jekyll-browserify'
+end
 ```
 
 And then execute:
@@ -44,7 +46,8 @@ browserify:
 
 ### Confing items and Default Values
 
-~~~~~~~~~~~~~~~~~~~~~~~~~_config.yaml
+~~~~~~~~~~~~~~~~~~~~~~~~~yaml
+# _config.yaml
 browserify:
   modules: []   # required modules
   option: ""    # browserify option string
