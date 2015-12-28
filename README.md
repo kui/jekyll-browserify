@@ -31,17 +31,16 @@ $ cat main.js
 console.log("foo");
 $ jekyll build
 $ cat _site/main.js
-# conterted code
+# ... conterted code ...
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Add the below to `_config.yaml` if you want to use with [babel][]:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~_config.yaml
+# require `npm install -D browserify baberify babel-preset-es2015`
+
 browserify:
-  modules:
-    - babelify
-    - babel-preset-es2015
-  option: "-t [ babelify --presets es2015 ]"
+  command: "$(npm bin)/browserify -t [ babelify --presets es2015 ]"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ### Confing items and Default Values
@@ -49,10 +48,22 @@ browserify:
 ~~~~~~~~~~~~~~~~~~~~~~~~~yaml
 # _config.yaml
 browserify:
-  modules: []   # required modules
-  option: ""    # browserify option string
   exts: [".js"] # target exts to convert
-  node_version: null
+  
+  # set nvm properties if you want to use with nvm installed automatically
+  nvm:
+    
+    # required modules
+    modules: []
+    
+    # browserify option string
+    option: ""
+    
+    # node version if you specify, or use '.nvmrc' if 'null'
+    node_version: null
+
+  # use installed 'browserify'
+  command: "browserify -"
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 [babel]: https://github.com/babel/babelify
