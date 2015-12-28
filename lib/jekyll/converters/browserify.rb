@@ -46,7 +46,7 @@ module Jekyll
 
       def npm_install?
         b = config("browserify", "npm_install")
-        (b == true) or (b.downcase == "true")
+        (b == true) or (b.is_a? String and b.downcase == "true")
       end
 
       def command
