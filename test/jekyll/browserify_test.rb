@@ -9,7 +9,6 @@ class Jekyll::BrowserifyTest < Minitest::Test
     b = Jekyll::Converters::Browserify.new(
       "browserify" => {
         "exts" => [".js"],
-        "node_version" => "stable",
       }
     )
     assert b.matches(".js")
@@ -21,7 +20,7 @@ class Jekyll::BrowserifyTest < Minitest::Test
     code = "console.log('foo');"
     b = Jekyll::Converters::Browserify.new(
       "browserify" => {
-        "node_version" => "stable",
+        "command" => "$(npm bin)/browserify -"
       }
     )
 
@@ -31,14 +30,32 @@ class Jekyll::BrowserifyTest < Minitest::Test
     refute_equal code, result
   end
 
-  def test_it_convert_js_source_with_modules
+  def test_it_convert_js_source_with_nvm
+    code = "console.log('foo');"
+    b = Jekyll::Converters::Browserify.new(
+      "browserify" => {
+        "nvm" => {
+          "node_version" => "stable",
+        }
+      }
+    )
+
+    result = b.convert(code)
+
+    assert_match code, result
+    refute_equal code, result
+  end
+
+  def test_it_convert_js_source_with_modules_and_nvm
     code_fragment = "console.log('foo');"
     code = "() => #{code_fragment}"
     b = Jekyll::Converters::Browserify.new(
       "browserify" => {
-        "modules" => ["babelify", "babel-preset-es2015"],
-        "option" => "-t [ babelify --presets es2015 ]",
-        "node_version" => "stable",
+        "nvm" => {
+          "modules" => ["babelify", "babel-preset-es2015"],
+          "option" => "-t [ babelify --presets es2015 ]",
+          "node_version" => "stable",
+        }
       }
     )
 

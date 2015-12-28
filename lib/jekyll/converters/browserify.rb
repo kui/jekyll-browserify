@@ -7,6 +7,7 @@ module Jekyll
       def initialize config
         super
         @browserify = nil
+        system "npm install"
       end
 
       def matches ext
@@ -24,28 +25,42 @@ module Jekyll
 
       def setup
         require "browserify_rb"
-        @browserify = BrowserifyRb.new(
-          required_modules: modules,
-          browserify_opts: option,
-          nvm_dir: File.join(ENV["PWD"], ".nvm"),
-          node_ver: node_ver
-        )
+        if use_nvm?
+          @browserify = BrowserifyRb::Nvm::Browserify.new(
+            required_modules: nvm_modules,
+            browserify_opts: nvm_option,
+            nvm_dir: File.join(ENV["PWD"], ".nvm"),
+            node_ver: nvm_node_ver
+          )
+        else
+          @browserify = BrowserifyRb::Browserify.new(
+            command: command
+          )
+        end
       end
 
       def exts
         (config("browserify", "exts") || [".js"]).map(&:downcase)
       end
 
-      def modules
-        config("browserify", "modules") || []
+      def command
+        config("browserify", "command") || "browserify -"
       end
 
-      def option
-        config("browserify", "option") || ""
+      def nvm_modules
+        config("browserify", "nvm", "modules") || []
       end
 
-      def node_ver
-        config("browserify", "node_version")
+      def nvm_option
+        config("browserify", "nvm", "option") || ""
+      end
+
+      def nvm_node_ver
+        config("browserify", "nvm", "node_version")
+      end
+
+      def use_nvm?
+        not config("browserify", "nvm").nil?
       end
 
       def config *path
