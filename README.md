@@ -52,6 +52,7 @@ browserify:
   modules: []   # required modules
   option: ""    # browserify option string
   exts: [".js"] # target exts to convert
+  node_version: null
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 [babel]: https://github.com/babel/babelify
