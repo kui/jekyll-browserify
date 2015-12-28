@@ -4,6 +4,11 @@ module Jekyll
       safe true
       priority :low
 
+      def initialize config
+        super
+        @browserify = nil
+      end
+
       def matches ext
         exts.include? ext.downcase
       end
@@ -13,7 +18,7 @@ module Jekyll
       end
 
       def convert content
-        setup unless @setup
+        setup unless @browserify
         @browserify.compile(content)
       end
 
@@ -22,9 +27,9 @@ module Jekyll
         @browserify = BrowserifyRb.new(
           required_modules: modules,
           browserify_opts: option,
-          nvm_dir: File.join(ENV["PWD"], ".nvm")
+          nvm_dir: File.join(ENV["PWD"], ".nvm"),
+          node_ver: node_ver
         )
-        @setup = true
       end
 
       def exts
@@ -37,6 +42,10 @@ module Jekyll
 
       def option
         config("browserify", "option") || ""
+      end
+
+      def node_ver
+        config("browserify", "node_version")
       end
 
       def config *path

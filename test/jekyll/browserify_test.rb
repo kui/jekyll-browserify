@@ -7,10 +7,9 @@ class Jekyll::BrowserifyTest < Minitest::Test
 
   def test_it_matches_js_files
     b = Jekyll::Converters::Browserify.new(
-      {
-        "browserify" => {
-          "exts" => [".js"]
-        }
+      "browserify" => {
+        "exts" => [".js"],
+        "node_version" => "stable",
       }
     )
     assert b.matches(".js")
@@ -20,7 +19,11 @@ class Jekyll::BrowserifyTest < Minitest::Test
 
   def test_it_convert_js_source
     code = "console.log('foo');"
-    b = Jekyll::Converters::Browserify.new
+    b = Jekyll::Converters::Browserify.new(
+      "browserify" => {
+        "node_version" => "stable",
+      }
+    )
 
     result = b.convert(code)
 
@@ -32,11 +35,10 @@ class Jekyll::BrowserifyTest < Minitest::Test
     code_fragment = "console.log('foo');"
     code = "() => #{code_fragment}"
     b = Jekyll::Converters::Browserify.new(
-      {
-        "browserify" => {
-          "modules" => ["babelify", "babel-preset-es2015"],
-          "option" => "-t [ babelify --presets es2015 ]"
-        }
+      "browserify" => {
+        "modules" => ["babelify", "babel-preset-es2015"],
+        "option" => "-t [ babelify --presets es2015 ]",
+        "node_version" => "stable",
       }
     )
 
