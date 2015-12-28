@@ -7,7 +7,8 @@ module Jekyll
       def initialize config
         super
         @browserify = nil
-        system "npm install"
+
+        system "npm install" if npm_install?
       end
 
       def matches ext
@@ -41,6 +42,11 @@ module Jekyll
 
       def exts
         (config("browserify", "exts") || [".js"]).map(&:downcase)
+      end
+
+      def npm_install?
+        b = config("browserify", "npm_install")
+        (b == true) or (b.downcase == "true")
       end
 
       def command

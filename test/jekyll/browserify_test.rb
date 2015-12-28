@@ -1,6 +1,9 @@
 require 'test_helper'
 
 class Jekyll::BrowserifyTest < Minitest::Test
+
+  system "npm install"
+
   def test_that_it_has_a_version_number
     refute_nil ::Jekyll::Browserify::VERSION
   end

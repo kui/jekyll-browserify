@@ -48,7 +48,15 @@ browserify:
 ~~~~~~~~~~~~~~~~~~~~~~~~~yaml
 # _config.yaml
 browserify:
-  exts: [".js"] # target exts to convert
+
+  # target exts to convert
+  exts: [".js"]
+  
+  # use installed 'browserify'
+  command: "browserify -"
+  
+  # execute `npm install` on initialize if true
+  npm_install: false
   
   # set nvm properties if you want to use with nvm installed automatically
   nvm:
@@ -61,9 +69,6 @@ browserify:
     
     # node version if you specify, or use '.nvmrc' if 'null'
     node_version: null
-
-  # use installed 'browserify'
-  command: "browserify -"
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 [babel]: https://github.com/babel/babelify
